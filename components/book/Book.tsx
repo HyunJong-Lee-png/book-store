@@ -1,5 +1,6 @@
 import { BookProps } from "@/types/books";
 import { makePublishedDate } from "@/util/makePublishedDate";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Book({ id, title, author, publishedDate, image, price }: BookProps) {
@@ -12,7 +13,7 @@ export default function Book({ id, title, author, publishedDate, image, price }:
       >
         <div className="w-[80px] h-[110px] relative p-1 bg-gray-400 shadow-md rounded-sm place-self-center">
           {image ?
-            <img src={image} alt={title} className="w-full h-full" />
+            <Image src={image} alt={title} className="w-full h-full" />
             : <div className="w-full h-full p-2 flex justify-center items-center text-sm font-bold  bg-white">이미지를 등록하세요.</div>}
         </div>
         <div className="flex flex-col gap-3 p-2 justify-center">

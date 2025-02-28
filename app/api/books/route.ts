@@ -5,7 +5,7 @@ import { writeFileSync } from "fs";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const data = await db.select().from(books).orderBy(desc(books.publishedDate));
     if (!data) {

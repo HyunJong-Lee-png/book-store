@@ -7,6 +7,7 @@ import BookUpdate from "./BookEdit";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function BookDetail({ foundBook }: { foundBook: BookProps }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,7 +75,7 @@ export default function BookDetail({ foundBook }: { foundBook: BookProps }) {
         animate={{ flex: isOpen ? 1 / 2 : 1, transformOrigin: 'left center' }}
       >
         {foundBook.image
-          ? <img src={`${foundBook.image}`} className="w-full h-full" />
+          ? <Image src={`${foundBook.image}`} className="w-full h-full" alt={foundBook.title} />
           : <div className="w-full h-full flex justify-center items-center font-bold text-3xl">No Image</div>}
       </motion.div>
 
