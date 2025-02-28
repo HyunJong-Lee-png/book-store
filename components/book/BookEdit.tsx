@@ -67,7 +67,8 @@ export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
       }
       if (!res.ok) throw new Error('책 수정 실패..');
       toast.success('책 수정 성공!');
-      router.push('/')
+      router.push(`/books/${foundBook.id}`)
+      router.refresh()
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);

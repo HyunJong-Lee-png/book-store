@@ -46,7 +46,8 @@ export default function AddBookPage() {
       }
       if (!res.ok) throw new Error('책 추가 실패...');
       toast.success('책 추가 성공!')
-      router.push('/');
+      const bookData = await res.json();
+      router.push(`/books/${bookData.data.id}`);
     }
     catch (err) {
       if (err instanceof Error) {

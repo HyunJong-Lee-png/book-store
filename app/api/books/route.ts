@@ -6,9 +6,9 @@ import { writeFileSync } from "fs";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const data = await db.select().from(books).orderBy(desc(books.publishedDate));
+    const data = await db.select().from(books).orderBy((desc(books.createdAt)));
     if (!data) {
       return NextResponse.json({ error: '해당 테이블이 없습니다.' }, { status: 404 })
     }

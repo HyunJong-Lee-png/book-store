@@ -46,7 +46,6 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     //이미지 파일이 없다면
     else {
       bookData = await req.json();
-      console.log('여기')
     }
 
     //DB 업데이트
