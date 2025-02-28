@@ -10,7 +10,7 @@ export default function HomepageLogo() {
       whileHover={{ scale: 1.2 }}
     >
       <Link href={'/'} className="flex items-center gap-5">
-        <Image src="/logo.jpg" alt="현종문고" width={100} height={120} className="rounded-lg" />
+        <Image src="/logo.jpg" alt="현종문고" width={100} height={120} priority className="rounded-lg w-auto h-auto" />
         <span className="text-2xl md:text-4xl font-bold font-sans">현종문고</span>
       </Link>
     </motion.div>

@@ -12,7 +12,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
 
   const books: TypeBook[] = booksData.data;
 
-  const filteredBooks = search ? books.filter(book => book.title.includes(search) || book.author.includes(search)) : books;
+  const filteredBooks = search ?
+    books.filter(book =>
+      book.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      || book.author.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+    : books;
 
   return (
     <div className="mt-28">
