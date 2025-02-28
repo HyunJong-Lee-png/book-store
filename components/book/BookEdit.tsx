@@ -42,6 +42,7 @@ export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
       const data = await res.json();
       return data.secure_url;
     } catch (error) {
+      console.log(error)
       toast.error('이미지 업로드 실패');
       return null;
     } finally {
