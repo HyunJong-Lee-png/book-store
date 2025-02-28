@@ -28,7 +28,7 @@ cd book-store
 2. 패키지 설치:
 
 ```bash
-npm install (or i)
+npm install
 ```
 
 3. 개발 서버 실행:
@@ -39,9 +39,9 @@ npm run dev
 
 ---
 
-### API 엔드포인트
+## API 엔드포인트
 
-## 책 목록 조회
+### 책 목록 조회
 
 ```http
 GET /api/books
@@ -92,6 +92,9 @@ POST /api/books
 {
   "title": "새로운 책",
   "author": "새로운 저자",
+  "image": "File (multipart/form-data)",
+  "publishedDate": "2021-06-23",
+  "price": 15000,
   "stockQuantity": 15
 }
 ```
@@ -103,7 +106,13 @@ POST /api/books
   "id": "uuid",
   "title": "새로운 책",
   "author": "새로운 저자",
-  "stockQuantity": 15
+  "image": "/book.jpg",
+  "publishedDate": "2021-06-23",
+  "price": 15000,
+  "stockQuantity": 15,
+  "salesVolume": 0,
+  "createdAt": "DATE",
+  "updatedAt": "DATE"
 }
 ```
 
@@ -153,7 +162,13 @@ PUT /api/books/:id
   "id": "uuid",
   "title": "수정된 제목",
   "author": "수정된 저자",
-  "stock": 12
+  "image": "/book5.jpg",
+  "publishedDate": "2021-10-25",
+  "price": 32000,
+  "stockQuantity": 20,
+  "salesVolume": 12,
+  "createdAt": "DATE",
+  "updatedAt": "DATE"
 }
 ```
 
