@@ -75,7 +75,7 @@ export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
         animate={{ flex: isOpen ? 1 / 2 : 1, transformOrigin: 'left center' }}
       >
         {foundBook.image
-          ? <Image src={`${foundBook.image}`} className="w-full h-full" alt={foundBook.title} />
+          ? <Image src={`${foundBook.image}`} width={400} height={600} alt={foundBook.title} />
           : <div className="w-full h-full flex justify-center items-center font-bold text-3xl">No Image</div>}
       </motion.div>
 
