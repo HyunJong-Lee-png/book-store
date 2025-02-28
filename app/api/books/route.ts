@@ -1,4 +1,4 @@
-import { PostTypeBook, TypeBook } from "@/types/books";
+import { TypeBook } from "@/types/books";
 import db from "../../../db";
 import { books } from "@/db/schema";
 import { desc } from "drizzle-orm";
