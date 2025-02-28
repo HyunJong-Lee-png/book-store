@@ -1,4 +1,4 @@
-import db from "@/db";
+import db from "../../../../db";
 import { books } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { writeFileSync } from "fs";
@@ -58,7 +58,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     if (!updatedData.length) {
       return NextResponse.json({ error: '해당 책을 찾을 수 없습니다.' }, { status: 404 })
     }
-    return NextResponse.json({ success: true, data: updatedData[0] })
+    return NextResponse.json({ success: true, data: updatedData[0] }, { status: 200 })
   }
   catch (error) {
     console.log(error);
@@ -73,7 +73,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     if (!data.length) {
       return NextResponse.json({ error: '해당 책을 찾을 수 없습니다.' }, { status: 404 });
     }
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true }, { status: 200 });
   }
   catch (error) {
     console.log("DELETE api/books/:id 오류:", error);

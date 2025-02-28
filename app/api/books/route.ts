@@ -1,4 +1,4 @@
-import db from "@/db";
+import db from "../../../db";
 import { books } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import { writeFileSync } from "fs";

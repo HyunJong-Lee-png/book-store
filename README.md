@@ -1,7 +1,7 @@
 # 온라인 서점 API
 
 이 프로젝트는 **Next.js**를 사용하여 책을 관리하는 간단한 API입니다.
-책 목록 조회, 추가, 수정, 삭제와 같은 기본적인 CRUD 기능을 제공합니다.
+책 목록 조회, 추가, 수정, 삭제와 같은 기본적인 CRUD 기능을 만들었습니다.
 
 ---
 
@@ -11,6 +11,7 @@
 - 책 추가
 - 책 정보 수정
 - 책 삭제
+- 책 통계
 - 에러 처리
 
 ---
@@ -20,8 +21,8 @@
 1. 저장소 클론:
 
 ```bash
-git clone https://github.com/yourusername/bookstore-api.git
-cd bookstore-api
+git clone https://github.com/HyunJong-Lee-png/book-store.git
+cd book-store
 ```
 
 2. 패키지 설치:
@@ -50,9 +51,31 @@ GET /api/books
 
 ```json
 {
-  "books": [
-    { "id": "1", "title": "책 제목 1", "author": "저자 1", "stock": 10 },
-    { "id": "2", "title": "책 제목 2", "author": "저자 2", "stock": 8 }
+  "data": [
+    {
+      "id": "1",
+      "title": "책 제목 1",
+      "author": "저자 1",
+      "image": "/book1.jpg",
+      "publishedDate": "2023-03-12",
+      "price": 30000,
+      "stockQuantity": 10,
+      "salesVolume": 5,
+      "createdAt": "DATE",
+      "updatedAt": "DATE"
+    },
+    {
+      "id": "2",
+      "title": "책 제목 2",
+      "author": "저자 2",
+      "image": "/book2.jpg",
+      "publishedDate": "2024-12-25",
+      "price": 38000,
+      "stockQuantity": 20,
+      "salesVolume": 12,
+      "createdAt": "DATE",
+      "updatedAt": "DATE"
+    }
   ]
 }
 ```
@@ -69,7 +92,7 @@ POST /api/books
 {
   "title": "새로운 책",
   "author": "새로운 저자",
-  "stock": 15
+  "stockQuantity": 15
 }
 ```
 
@@ -77,10 +100,10 @@ POST /api/books
 
 ```json
 {
-  "id": "21",
+  "id": "uuid",
   "title": "새로운 책",
   "author": "새로운 저자",
-  "stock": 15
+  "stockQuantity": 15
 }
 ```
 
@@ -94,10 +117,16 @@ GET /api/books/:id
 
 ```json
 {
-  "id": "1",
-  "title": "책 제목 1",
-  "author": "저자 1",
-  "stock": 10
+  "id": "2",
+  "title": "책 제목 2",
+  "author": "저자 2",
+  "image": "/book2.jpg",
+  "publishedDate": "2024-12-25",
+  "price": 38000,
+  "stockQuantity": 20,
+  "salesVolume": 12,
+  "createdAt": "DATE",
+  "updatedAt": "DATE"
 }
 ```
 
@@ -113,7 +142,7 @@ PUT /api/books/:id
 {
   "title": "수정된 제목",
   "author": "수정된 저자",
-  "stock": 12
+  "stockQuantity": 12
 }
 ```
 
@@ -121,7 +150,7 @@ PUT /api/books/:id
 
 ```json
 {
-  "id": "1",
+  "id": "uuid",
   "title": "수정된 제목",
   "author": "수정된 저자",
   "stock": 12
@@ -138,7 +167,7 @@ DELETE /api/books/:id
 
 ```json
 {
-  "message": "책이 삭제되었습니다"
+  "success": true
 }
 ```
 
@@ -146,22 +175,10 @@ DELETE /api/books/:id
 
 ## 에러 처리
 
-API는 적절한 HTTP 상태 코드와 에러 메시지를 반환합니다. 예제:
-
 ```json
 {
-  "error": "책을 찾을 수 없습니다"
+  "error": "해당 책을 찾을 수 없습니다."
 }
 ```
-
----
-
-## 기여 방법
-
-1. 저장소를 포크하세요.
-2. 새로운 브랜치를 생성하세요 (`git checkout -b feature-new`).
-3. 변경 사항을 커밋하세요 (`git commit -m 'feat: 새로운 기능 추가'`).
-4. 브랜치를 푸시하세요 (`git push origin feature-new`).
-5. Pull Request를 생성하세요.
 
 ---
