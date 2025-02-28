@@ -70,7 +70,7 @@ export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
   return (
     <div className="w-full border shadow-md rounded-md flex p-10 max-h-[680px] gap-10">
       <motion.div
-        className={`py-10 bg-gray-100 h-[600px] `}
+        className={`py-10 bg-gray-100 h-[600px] overflow-hidden`}
         initial={{ flex: 1 }}
         animate={{ flex: isOpen ? 1 / 2 : 1, transformOrigin: 'left center' }}
       >

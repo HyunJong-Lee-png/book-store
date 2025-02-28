@@ -11,7 +11,7 @@ export default function Book({ id, title, author, publishedDate, image, price }:
         className="border rounded-lg grid grid-cols-2  p-3"
         href={`/books/${id}`}
       >
-        <div className="w-[80px] h-[110px] relative p-1 bg-gray-400 shadow-md rounded-sm place-self-center">
+        <div className="w-[80px] h-[110px] relative p-1 bg-gray-400 shadow-md rounded-sm place-self-center overflow-hidden">
           {image ?
             <Image src={image} alt={title} width={80} height={110} />
             : <div className="w-full h-full p-2 flex justify-center items-center text-sm font-bold  bg-white">이미지를 등록하세요.</div>}
