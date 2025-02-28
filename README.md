@@ -165,8 +165,8 @@ PUT /api/books/:id
   "image": "/book5.jpg",
   "publishedDate": "2021-10-25",
   "price": 32000,
-  "stockQuantity": 20,
-  "salesVolume": 12,
+  "stockQuantity": 12,
+  "salesVolume": 3,
   "createdAt": "DATE",
   "updatedAt": "DATE"
 }
