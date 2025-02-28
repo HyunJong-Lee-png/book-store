@@ -9,7 +9,8 @@ import toast from 'react-hot-toast';
 
 export default function AddBookPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [fileError, setFileError] = useState('')
+  const [uploading, setUploading] = useState(false);
+  const [fileError, setFileError] = useState('');
   const {
     register,
     handleSubmit,
@@ -19,31 +20,46 @@ export default function AddBookPage() {
   });
   const router = useRouter();
 
+  const uploadImage = async (file: File) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'upload_preset');
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      return data.secure_url;
+    } catch (error) {
+      toast.error('이미지 업로드 실패');
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const onSubmit = async (data: BookFormValues) => {
     try {
 
-      let res;
+      let imageUrl = '';
 
-      //이미지 파일을 넣었을 때
       if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('json', JSON.stringify(data));
-        res = await fetch('/api/books', {
-          method: 'POST',
-          body: formData
-        });
+        const uploadedUrl = await uploadImage(file);
+        if (!uploadedUrl) throw new Error('이미지 업로드 실패');
+        imageUrl = uploadedUrl;
       }
-      //넣지 않았을 때
-      else {
-        res = await fetch('/api/books', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-      }
+
+      const res = await fetch('/api/books', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ...data, image: imageUrl })
+      });
+
       if (!res.ok) throw new Error('책 추가 실패...');
       toast.success('책 추가 성공!')
       const bookData = await res.json();
@@ -94,10 +110,11 @@ export default function AddBookPage() {
         <input type="date" {...register('publishedDate')} className="border p-2" />
         {<p className={`text-red-500 ${errors.publishedDate ? 'visible' : 'invisible'}`}>{errors.publishedDate?.message || 'none'}</p>}
 
-        <button className="px-4 py-2 bg-black text-white rounded disabled:opacity-50" disabled={isSubmitting}>
-          {isSubmitting ? '추가중...' : '책 추가'}
+        <button className="px-4 py-2 bg-black text-white rounded disabled:opacity-50" disabled={isSubmitting || uploading}>
+          {isSubmitting || uploading ? '추가중...' : '책 추가'}
         </button>
       </form>
     </div>
   );
 }
+

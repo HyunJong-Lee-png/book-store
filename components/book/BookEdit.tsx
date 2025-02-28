@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const [fileError, setFileError] = useState('')
   const {
     register,
@@ -27,6 +28,27 @@ export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
     }
   });
 
+  const uploadImage = async (file: File) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'upload_preset');
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      return data.secure_url;
+    } catch (error) {
+      toast.error('이미지 업로드 실패');
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -40,31 +62,23 @@ export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
 
   const onSubmit = async (data: BookFormValues) => {
 
-    let res;
-
     try {
-      //이미지 파일이 있을때
+      let imageUrl = foundBook.image;
+
       if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('json', JSON.stringify(data));
-        res = await fetch(`/api/books/${foundBook.id}`, {
-          method: 'PUT',
-          headers: {
-          },
-          body: formData
-        });
+        const uploadedUrl = await uploadImage(file);
+        if (!uploadedUrl) throw new Error('이미지 업로드 실패');
+        imageUrl = uploadedUrl;
       }
-      //이미지 파일이 없을 때
-      else {
-        res = await fetch(`/api/books/${foundBook.id}`, {
-          method: 'PUT',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-      }
+
+      const res = await fetch(`/api/books/${foundBook.id}`, {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ...data, image: imageUrl }) // 이미지 URL 포함
+      });
+
       if (!res.ok) throw new Error('책 수정 실패..');
       toast.success('책 수정 성공!');
       router.push(`/books/${foundBook.id}`)
@@ -107,8 +121,8 @@ export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
         <input type="date" {...register('publishedDate')} className="border p-2" />
         {<p className={`text-xs text-red-500 ${errors.publishedDate ? 'visible' : 'invisible'}`}>{errors.publishedDate?.message || 'none'}</p>}
 
-        <button className="px-4 py-2 bg-black text-white rounded disabled:opacity-50" disabled={isSubmitting}>
-          {isSubmitting ? '수정중...' : '책 수정'}
+        <button className="px-4 py-2 bg-black text-white rounded disabled:opacity-50" disabled={isSubmitting || uploading}>
+          {isSubmitting || uploading ? '수정중...' : '책 수정'}
         </button>
       </form>
     </motion.div>
