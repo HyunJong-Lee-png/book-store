@@ -1,11 +1,11 @@
 'use client';
-import { BookOriginal } from '@/types/books';
+import { TypeBook } from '@/types/books';
 import { Book } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function StatsPage() {
-  const [books, setBooks] = useState<BookOriginal[]>([]);
+  const [books, setBooks] = useState<TypeBook[]>([]);
 
   useEffect(() => {
     (async function () {

@@ -1,11 +1,11 @@
 'use client'
-import { BookProps } from "@/types/books";
+import { TypeBook } from "@/types/books";
 import Book from "./Book";
 import { useState } from "react";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 
-export default function BookPages({ books }: { books: BookProps[] }) {
+export default function BookPages({ books }: { books: TypeBook[] }) {
   const [page, setPage] = useState(1);
 
   const limit = 9;

@@ -1,5 +1,5 @@
 import { books } from '@/db/schema'
 
-export type BookOriginal = typeof books.$inferSelect;
+export type TypeBook = typeof books.$inferSelect;
 
-export type BookProps = Omit<BookOriginal, 'createdAt' | 'updatedAt'>
+export type PostTypeBook = Omit<TypeBook, 'createdAt' | 'updatedAt' | 'id' | 'salesVolume'>

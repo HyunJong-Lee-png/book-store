@@ -1,5 +1,5 @@
 import BookPages from "@/components/book/BookPages";
-import { BookOriginal } from "@/types/books";
+import { TypeBook } from "@/types/books";
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ search: string }> }) {
   const { search } = await searchParams;
@@ -10,7 +10,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
   }
   const booksData = await res.json();
 
-  const books: BookOriginal[] = booksData.data;
+  const books: TypeBook[] = booksData.data;
 
   const filteredBooks = search ? books.filter(book => book.title.includes(search) || book.author.includes(search)) : books;
 

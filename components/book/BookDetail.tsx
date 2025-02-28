@@ -1,6 +1,6 @@
 'use client'
 
-import { BookProps } from "@/types/books";
+import { TypeBook } from "@/types/books";
 import { makePublishedDate } from "@/util/makePublishedDate";
 import { useState } from "react";
 import BookUpdate from "./BookEdit";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function BookDetail({ foundBook }: { foundBook: BookProps }) {
+export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 

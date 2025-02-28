@@ -1,6 +1,6 @@
 'use client'
 import { BookFormValues, BookSchema } from "@/schemas/book";
-import { BookProps } from "@/types/books";
+import { TypeBook } from "@/types/books";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export default function BookUpdate({ foundBook }: { foundBook: BookProps }) {
+export default function BookUpdate({ foundBook }: { foundBook: TypeBook }) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState('')

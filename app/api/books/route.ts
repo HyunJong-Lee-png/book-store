@@ -1,3 +1,4 @@
+import { PostTypeBook, TypeBook } from "@/types/books";
 import db from "../../../db";
 import { books } from "@/db/schema";
 import { desc } from "drizzle-orm";
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get('Content-Type') || '';
 
-    let bookData: any = {};
+    let bookData = {};
 
     //이미지 파일이 있다면
     if (contentType.includes('multipart/form-data')) {
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
     else {
       bookData = await req.json();
     }
-    const newBook = await db.insert(books).values(bookData).returning();
+    const newBook = await db.insert(books).values(bookData as TypeBook).returning();
 
     if (!newBook.length) {
       return NextResponse.json({ success: false })

@@ -1,9 +1,9 @@
-import { BookProps } from "@/types/books";
+import { TypeBook } from "@/types/books";
 import { makePublishedDate } from "@/util/makePublishedDate";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Book({ id, title, author, publishedDate, image, price }: BookProps) {
+export default function Book({ id, title, author, publishedDate, image, price }: TypeBook) {
   const date = makePublishedDate(publishedDate);
   return (
     <>
