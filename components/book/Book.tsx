@@ -1,0 +1,28 @@
+import { BookProps } from "@/types/books";
+import { makePublishedDate } from "@/util/makePublishedDate";
+import Link from "next/link";
+
+export default function Book({ id, title, author, publishedDate, image, price }: BookProps) {
+  const date = makePublishedDate(publishedDate);
+  return (
+    <>
+      <Link
+        className="border rounded-lg grid grid-cols-2  p-3"
+        href={`/books/${id}`}
+      >
+        <div className="w-[80px] h-[110px] relative p-1 bg-gray-400 shadow-md rounded-sm place-self-center">
+          {image ?
+            <img src={image} alt={title} className="w-full h-full" />
+            : <div className="w-full h-full p-2 flex justify-center items-center text-sm font-bold  bg-white">이미지를 등록하세요.</div>}
+        </div>
+        <div className="flex flex-col gap-3 p-2 justify-center">
+          <h1 className="text-base font-bold overflow-hidden truncate">{title}</h1>
+          <h3 className="space-x-3 text-sm text-gray-400 truncate"><span >{author} 저</span></h3>
+          <h3 className="space-x-2 text-sm text-gray-400 truncate">{date}</h3>
+          <h1 className="text-sm font-bold text-red-500 truncate">{price.toLocaleString()}원</h1>
+        </div>
+      </Link>
+    </>
+
+  );
+}

@@ -1,36 +1,167 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 온라인 서점 API
 
-## Getting Started
+이 프로젝트는 **Next.js**를 사용하여 책을 관리하는 간단한 API입니다.
+책 목록 조회, 추가, 수정, 삭제와 같은 기본적인 CRUD 기능을 제공합니다.
 
-First, run the development server:
+---
+
+## 기능
+
+- 책 목록 조회 (페이지네이션)
+- 책 추가
+- 책 정보 수정
+- 책 삭제
+- 에러 처리
+
+---
+
+## 설치 방법
+
+1. 저장소 클론:
+
+```bash
+git clone https://github.com/yourusername/bookstore-api.git
+cd bookstore-api
+```
+
+2. 패키지 설치:
+
+```bash
+npm install (or i)
+```
+
+3. 개발 서버 실행:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### API 엔드포인트
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 책 목록 조회
 
-## Learn More
+```http
+GET /api/books
+```
 
-To learn more about Next.js, take a look at the following resources:
+**응답**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```json
+{
+  "books": [
+    { "id": "1", "title": "책 제목 1", "author": "저자 1", "stock": 10 },
+    { "id": "2", "title": "책 제목 2", "author": "저자 2", "stock": 8 }
+  ]
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 책 추가
 
-## Deploy on Vercel
+```http
+POST /api/books
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**요청**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{
+  "title": "새로운 책",
+  "author": "새로운 저자",
+  "stock": 15
+}
+```
+
+**응답**
+
+```json
+{
+  "id": "21",
+  "title": "새로운 책",
+  "author": "새로운 저자",
+  "stock": 15
+}
+```
+
+## 책 상세 조회
+
+```http
+GET /api/books/:id
+```
+
+**응답**
+
+```json
+{
+  "id": "1",
+  "title": "책 제목 1",
+  "author": "저자 1",
+  "stock": 10
+}
+```
+
+## 책 정보 수정
+
+```http
+PUT /api/books/:id
+```
+
+**요청**
+
+```json
+{
+  "title": "수정된 제목",
+  "author": "수정된 저자",
+  "stock": 12
+}
+```
+
+**응답**
+
+```json
+{
+  "id": "1",
+  "title": "수정된 제목",
+  "author": "수정된 저자",
+  "stock": 12
+}
+```
+
+## 책 삭제
+
+```http
+DELETE /api/books/:id
+```
+
+**응답**
+
+```json
+{
+  "message": "책이 삭제되었습니다"
+}
+```
+
+---
+
+## 에러 처리
+
+API는 적절한 HTTP 상태 코드와 에러 메시지를 반환합니다. 예제:
+
+```json
+{
+  "error": "책을 찾을 수 없습니다"
+}
+```
+
+---
+
+## 기여 방법
+
+1. 저장소를 포크하세요.
+2. 새로운 브랜치를 생성하세요 (`git checkout -b feature-new`).
+3. 변경 사항을 커밋하세요 (`git commit -m 'feat: 새로운 기능 추가'`).
+4. 브랜치를 푸시하세요 (`git push origin feature-new`).
+5. Pull Request를 생성하세요.
+
+---
