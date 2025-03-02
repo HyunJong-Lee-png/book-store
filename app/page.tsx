@@ -31,7 +31,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ s
 
   return (
     <div className="mt-28">
-      <BookPages booksData={booksData} currentPage={currentPage} totalPage={totalPage} />
+      <BookPages booksData={booksData} currentPage={currentPage} totalPage={totalPage} searchParam={searchParam} />
     </div>
   );
 }
