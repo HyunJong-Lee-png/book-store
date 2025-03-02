@@ -39,7 +39,7 @@ export default function BookPages({ booksData, currentPage, totalPage, searchPar
         <div className="flex justify-center items-center gap-3 my-8">
           <button
             className={`px-4 py-2 border rounded-md ${currentPage === 1 ? 'opacity-50' : ''}`}
-            onClick={() => handlePagenation('right')}
+            onClick={() => handlePagenation('left')}
             disabled={currentPage === 1}
           >
             <ArrowBigLeft fill="black" />
@@ -49,7 +49,7 @@ export default function BookPages({ booksData, currentPage, totalPage, searchPar
           </div>
           <button
             className={`px-4 py-2 border rounded-md ${currentPage === totalPage ? 'opacity-50' : ''}`}
-            onClick={() => handlePagenation('left')}
+            onClick={() => handlePagenation('right')}
             disabled={currentPage === totalPage}
           >
             <ArrowBigRight fill="black" />
