@@ -20,19 +20,23 @@ export async function GET(req: NextRequest) {
     const offset = (page - 1) * limit;
 
     let data = [] as TypeBook[];
+    let bookCount: { value: number };
 
-    if (search) {
-      data = await db.query.books.findMany({
-        where: or(ilike(books.title, `%${search}%`), ilike(books.author, `%${search}%`)),
-        orderBy: desc(books.salesVolume),
-        limit,
-        offset
-      })
-    } else {
-      data = await db.select().from(books).orderBy(desc(books.createdAt)).offset(offset).limit(limit);
-    }
-    const { value } = (await db.select({ value: count() }).from(books))[0];
-    const totalPage = Math.ceil(value / limit);
+    const where = search
+      ? or(ilike(books.title, `%${search}%`), ilike(books.author, `%${search}%`))
+      : undefined;
+
+    const orderBy = search ? desc(books.salesVolume) : desc(books.createdAt);
+
+    data = await db.query.books.findMany({
+      where,
+      orderBy,
+      limit,
+      offset
+    });
+
+    bookCount = (await db.select({ value: count() }).from(books).where(where))[0];
+    const totalPage = bookCount.value ? Math.ceil(bookCount.value / limit) : 1;
 
     if (!data) {
       return NextResponse.json({ error: '해당 테이블이 없습니다.' }, { status: 404 })
