@@ -20,7 +20,6 @@ export async function GET(req: NextRequest) {
     const offset = (page - 1) * limit;
 
     let data = [] as TypeBook[];
-    let bookCount: { value: number };
 
     const where = search
       ? or(ilike(books.title, `%${search}%`), ilike(books.author, `%${search}%`))
@@ -35,7 +34,7 @@ export async function GET(req: NextRequest) {
       offset
     });
 
-    bookCount = (await db.select({ value: count() }).from(books).where(where))[0];
+    const bookCount = (await db.select({ value: count() }).from(books).where(where))[0];
     const totalPage = bookCount.value ? Math.ceil(bookCount.value / limit) : 1;
 
     if (!data) {
