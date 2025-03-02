@@ -12,12 +12,12 @@ export default function BookPages({ booksData, currentPage, totalPage, searchPar
   const router = useRouter();
   const [howToSort, setHowToSort] = useState('latest');
   const handlePagenation = (direction: string) => {
-    const search = searchParam ? `search=${searchParam}` : "";
+    const search = searchParam || "";
     const newPage = direction === 'right'
       ? Math.min(currentPage + 1, totalPage)
       : Math.max(currentPage - 1, 1);
 
-    router.push(`/?${[search, `page=${newPage}`].filter(Boolean).join('&')}`);
+    router.push(`/?${[search, newPage].filter(Boolean).join('&')}`);
   }
 
   return (
