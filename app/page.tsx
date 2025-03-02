@@ -1,5 +1,4 @@
 import BookPages from "@/components/book/BookPages";
-import BookSort from "@/components/book/BookSort";
 import { TypeBook } from "@/types/books";
 
 export interface WholeProps {

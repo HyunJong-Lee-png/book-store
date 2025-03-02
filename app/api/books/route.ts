@@ -1,7 +1,7 @@
 import { TypeBook } from "@/types/books";
 import db from "../../../db";
 import { books } from "@/db/schema";
-import { asc, count, desc, ilike, or } from "drizzle-orm";
+import { count, desc, ilike, or } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
