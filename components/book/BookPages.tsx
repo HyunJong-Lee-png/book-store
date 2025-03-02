@@ -6,9 +6,19 @@ import { useRouter } from "next/navigation";
 import BookSort from "./BookSort";
 import { useState } from "react";
 
-export default function BookPages({ booksData, currentPage, totalPage }: WholeProps['data']) {
+type Props = { searchParam: string } & WholeProps['data']
+
+export default function BookPages({ booksData, currentPage, totalPage, searchParam }: Props) {
   const router = useRouter();
   const [howToSort, setHowToSort] = useState('latest');
+  const handlePagenation = (direction: string) => {
+    const search = searchParam ? `search=${searchParam}` : "";
+    const newPage = direction === 'right'
+      ? Math.min(currentPage + 1, totalPage)
+      : Math.max(currentPage - 1, 1);
+
+    router.push(`/?${[search, `page=${newPage}`].filter(Boolean).join('&')}`);
+  }
 
   return (
     <>
@@ -29,7 +39,7 @@ export default function BookPages({ booksData, currentPage, totalPage }: WholePr
         <div className="flex justify-center items-center gap-3 my-8">
           <button
             className={`px-4 py-2 border rounded-md ${currentPage === 1 ? 'opacity-50' : ''}`}
-            onClick={() => router.push(`/?page=${Math.max(currentPage - 1, 1)}`)}
+            onClick={() => handlePagenation('right')}
             disabled={currentPage === 1}
           >
             <ArrowBigLeft fill="black" />
@@ -39,7 +49,7 @@ export default function BookPages({ booksData, currentPage, totalPage }: WholePr
           </div>
           <button
             className={`px-4 py-2 border rounded-md ${currentPage === totalPage ? 'opacity-50' : ''}`}
-            onClick={() => router.push(`/?page=${Math.min(currentPage + 1, totalPage)}`)}
+            onClick={() => handlePagenation('left')}
             disabled={currentPage === totalPage}
           >
             <ArrowBigRight fill="black" />

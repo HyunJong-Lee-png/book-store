@@ -11,7 +11,7 @@ export default function SearchBar() {
     e.preventDefault();
     if (!value) return;
     //네비게이션 바에서 검색값을 홈페이지에 searchParams를 이용해 전달
-    router.push(`/?search=${value}`);
+    router.push(`/?search=${value}&page=1`);
     setValue('')
   }
   return (
