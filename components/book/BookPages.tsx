@@ -9,7 +9,6 @@ import { useState } from "react";
 export default function BookPages({ booksData, currentPage, totalPage }: WholeProps['data']) {
   const router = useRouter();
   const [howToSort, setHowToSort] = useState('latest');
-  console.log(new Date(booksData[0].createdAt).getTime(), '껄렁껄렁')
 
   return (
     <>
