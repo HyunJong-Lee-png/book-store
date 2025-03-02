@@ -1,46 +1,54 @@
 'use client'
-import { TypeBook } from "@/types/books";
 import Book from "./Book";
-import { useState } from "react";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { WholeProps } from "@/app/page";
+import { useRouter } from "next/navigation";
+import BookSort from "./BookSort";
+import { useState } from "react";
 
-
-export default function BookPages({ books }: { books: TypeBook[] }) {
-  const [page, setPage] = useState(1);
-
-  const limit = 9;
-  const from = (page - 1) * limit;
-  const to = from + limit;
-  const totalPage = Math.ceil(books.length / limit);
+export default function BookPages({ booksData, currentPage, totalPage }: WholeProps['data']) {
+  const router = useRouter();
+  const [howToSort, setHowToSort] = useState('latest');
+  console.log(new Date(booksData[0].createdAt).getTime(), '껄렁껄렁')
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className=" pt-10 grid grid-rows-[repeat(3,minmax(0px,200px))] grid-cols-3 gap-5 cursor-pointer">
-        {books.slice(from, to).map(data => (
-          <Book key={data.id}{...data} />))}
-      </div>
-
-      {/* 페이지네이션 */}
-      <div className="flex justify-center items-center gap-3 my-8">
-        <button
-          className={`px-4 py-2 border rounded-md ${page === 1 ? 'opacity-50' : ''}`}
-          onClick={() => setPage(prev => Math.max(prev - 1, 1))}
-          disabled={page === 1}
-        >
-          <ArrowBigLeft fill="black" />
-        </button>
-        <div>
-          {`${page} / ${totalPage}`}
+    <>
+      <BookSort setHowToSort={setHowToSort} />
+      <div className="max-w-4xl mx-auto">
+        <div className=" grid grid-rows-[repeat(3,minmax(0px,200px))] grid-cols-3 gap-5 cursor-pointer">
+          {booksData.sort((a, b) => (
+            howToSort === 'latest' ?
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() :
+              howToSort === 'popular' ?
+                b.salesVolume - a.salesVolume :
+                b.price - a.price
+          )).map(data => (
+            <Book key={data.id}{...data} />))}
         </div>
-        <button
-          className={`px-4 py-2 border rounded-md ${page === totalPage ? 'opacity-50' : ''}`}
-          onClick={() => setPage(prev => Math.min(prev + 1, totalPage))}
-          disabled={page === totalPage}
-        >
-          <ArrowBigRight fill="black" />
-        </button>
-      </div>
 
-    </div>
+        {/* 페이지네이션 */}
+        <div className="flex justify-center items-center gap-3 my-8">
+          <button
+            className={`px-4 py-2 border rounded-md ${currentPage === 1 ? 'opacity-50' : ''}`}
+            onClick={() => router.push(`/?page=${Math.max(currentPage - 1, 1)}`)}
+            disabled={currentPage === 1}
+          >
+            <ArrowBigLeft fill="black" />
+          </button>
+          <div>
+            {`${currentPage} / ${totalPage}`}
+          </div>
+          <button
+            className={`px-4 py-2 border rounded-md ${currentPage === totalPage ? 'opacity-50' : ''}`}
+            onClick={() => router.push(`/?page=${Math.min(currentPage + 1, totalPage)}`)}
+            disabled={currentPage === totalPage}
+          >
+            <ArrowBigRight fill="black" />
+          </button>
+        </div>
+
+      </div>
+    </>
+
   );
 }

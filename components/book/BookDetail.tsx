@@ -11,6 +11,7 @@ import Image from "next/image";
 
 export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isBuying, setIsBuying] = useState(false);
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -43,6 +44,7 @@ export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
   }
 
   const testBuy = async () => {
+    setIsBuying(true);
     if (!foundBook.stockQuantity) {
       toast.error('재고가 없습니다.');
       return;
@@ -62,6 +64,7 @@ export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
       toast.error('구매에 문제가 생겼습니다.');
       router.refresh();
     } else {
+      setIsBuying(false);
       toast.success('구매 성공!');
       router.refresh();
     }
@@ -70,12 +73,12 @@ export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
   return (
     <div className="w-full border shadow-md rounded-md flex p-10 max-h-[680px] gap-10">
       <motion.div
-        className={`py-10 bg-gray-100 h-[600px] overflow-hidden`}
+        className={`relative py-10 bg-gray-100 h-[600px] overflow-hidden`}
         initial={{ flex: 1 }}
         animate={{ flex: isOpen ? 1 / 2 : 1, transformOrigin: 'left center' }}
       >
         {foundBook.image
-          ? <Image src={`${foundBook.image}`} width={400} height={600} alt={foundBook.title} />
+          ? <Image src={`${foundBook.image}`} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" alt={foundBook.title} />
           : <div className="w-full h-full flex justify-center items-center font-bold text-3xl">No Image</div>}
       </motion.div>
 
@@ -109,7 +112,13 @@ export default function BookDetail({ foundBook }: { foundBook: TypeBook }) {
           </div>
         </div>
         {/* 테스트 구매버튼 */}
-        <button onClick={testBuy} className="w-full py-2 px-4 font-bold bg-black text-white rounded-lg">테스트 구매</button>
+        <button
+          onClick={testBuy}
+          className="w-full py-2 px-4 font-bold bg-black text-white rounded-lg disabled:opacity-50 "
+          disabled={isBuying}
+        >
+          테스트 구매
+        </button>
       </motion.div>
       {/* 편집버튼 클릭시 편집페이지 생성 */}
       <AnimatePresence>

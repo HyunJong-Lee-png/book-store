@@ -13,7 +13,12 @@ export default function Book({ id, title, author, publishedDate, image, price }:
       >
         <div className="w-[80px] h-[110px] relative p-1 bg-gray-400 shadow-md rounded-sm place-self-center overflow-hidden">
           {image ?
-            <Image src={image} alt={title} width={80} height={110} />
+            <Image
+              src={image}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              alt={title}
+            />
             : <div className="w-full h-full p-2 flex justify-center items-center text-sm font-bold  bg-white">이미지를 등록하세요.</div>}
         </div>
         <div className="flex flex-col gap-3 p-2 justify-center">

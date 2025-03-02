@@ -9,7 +9,7 @@ export default function StatsPage() {
 
   useEffect(() => {
     (async function () {
-      const res = await (await fetch('/api/books')).json();
+      const res = await (await fetch('/api/books/stats')).json();
       const books = res.data;
       setBooks(books);
     })()
@@ -19,7 +19,7 @@ export default function StatsPage() {
   const top5Books = [...books].sort((a, b) => b.salesVolume - a.salesVolume).slice(0, 5);
 
   return (
-    <div className="max-w-md mx-auto mt-28">
+    <div className="max-w-md mx-auto mt-28 p-10">
       <h1 className="text-2xl font-bold mb-4 text-center">{'<판매 통계>'}</h1>
 
       {/* 인기 도서 TOP 5 */}
@@ -34,7 +34,7 @@ export default function StatsPage() {
       </ul>
 
       {/* 판매량 차트 */}
-      <h2 className="text-lg font-semibold mt-6 mb-2 flex items-center"><Book />전체 도서 판매량</h2>
+      <h2 className="text-lg font-semibold mt-6 mb-2 flex items-center"><Book />상위 20개 도서 판매량</h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={books}>
           <XAxis dataKey="title" />

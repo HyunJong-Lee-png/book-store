@@ -1,6 +1,6 @@
 import BookDetail from "@/components/book/BookDetail";
 
-const BASE_URL = process.env.PRODUCTION_URL || process.env.DEV_URL;
+const BASE_URL = process.env.BASE_URL;
 
 export default async function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

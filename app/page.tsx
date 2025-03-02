@@ -1,29 +1,34 @@
 import BookPages from "@/components/book/BookPages";
+import BookSort from "@/components/book/BookSort";
 import { TypeBook } from "@/types/books";
 
-const BASE_URL = process.env.PRODUCTION_URL || process.env.DEV_URL;
+export interface WholeProps {
+  data: {
+    booksData: TypeBook[];
+    currentPage: number;
+    totalPage: number;
+  }
+}
 
-export default async function Home({ searchParams }: { searchParams: Promise<{ search: string }> }) {
+const BASE_URL = process.env.BASE_URL;
 
-  const { search } = await searchParams;
-  const res = await fetch(`${BASE_URL}/api/books`);
+export default async function Home({ searchParams }: { searchParams: Promise<{ search: string, page: string }> }) {
+  const params = await searchParams;
+  const search = params.search || '';
+  const page = parseInt(params.page || '1');
+
+  const res = await fetch(`${BASE_URL}/api/books?search=${encodeURIComponent(search)}&page=${page}`);
 
   if (!res.ok) {
     return <div>책을 찾을 수 없습니다.</div>
   }
-  const booksData = await res.json();
+  const { data: { booksData, currentPage, totalPage } }: WholeProps = await res.json();
 
-  const books: TypeBook[] = booksData.data;
 
-  const filteredBooks = search ?
-    books.filter(book =>
-      book.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-      || book.author.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
-    : books;
 
   return (
     <div className="mt-28">
-      <BookPages books={filteredBooks} />
+      <BookPages booksData={booksData} currentPage={currentPage} totalPage={totalPage} />
     </div>
   );
 }
