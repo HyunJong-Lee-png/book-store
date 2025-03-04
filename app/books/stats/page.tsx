@@ -1,4 +1,5 @@
 'use client';
+import LoadingComponent from '@/components/loading/Loading';
 import { TypeBook } from '@/types/books';
 import { Book } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -6,17 +7,24 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 
 export default function StatsPage() {
   const [books, setBooks] = useState<TypeBook[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     (async function () {
       const res = await (await fetch('/api/books/stats')).json();
       const books = res.data;
       setBooks(books);
+      setIsLoading(false);
     })()
   }, []);
 
   // Top5 정렬
   const top5Books = [...books].sort((a, b) => b.salesVolume - a.salesVolume).slice(0, 5);
+
+  if (isLoading) {
+    return (<LoadingComponent />)
+  }
 
   return (
     <div className="max-w-md mx-auto mt-28 p-10">
