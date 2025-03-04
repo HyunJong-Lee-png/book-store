@@ -13,8 +13,6 @@ const BASE_URL = process.env.BASE_URL;
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ search: string, page: string }> }) {
   const { search, page } = await searchParams;
-
-
   const searchParam = search ? `search=${encodeURIComponent(search)}` : "";
   const pageParam = page ? `page=${parseInt(page)}` : `page=1`;
 
